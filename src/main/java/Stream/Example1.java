@@ -7,7 +7,7 @@ public class Example1 {
         IntStream.iterate(0, n -> n + 1)
                 .filter(number -> number > 100 && number < 1000 && number % 5 == 0)
                 .limit(10)
-                .map(number -> number * 10)
+                .map(number -> number * 3)
                 .forEach(System.out::println);
     }
 }
