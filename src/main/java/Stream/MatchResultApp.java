@@ -1,20 +1,38 @@
 package Stream;
 
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.function.Predicate;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MatchResultApp {
     public static void main(String[] args) {
         System.out.println("Wszystkie mecze:");
-        getMatchResultsStream().sorted((m1, m2) -> Integer.compare(m2.getGoalDifference(), m1.getGoalDifference()))
-                .forEach(System.out::println);
+        printAllResultSorted(getMatchResultsStream());
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println("Wszystkie spotkania Polski:");
-        getMatchResultsStream().filter(matchResult -> matchResult.getTeam("Polska"))
-                .forEach(System.out::println);
+        getResultWithTeam(getMatchResultsStream(), "Polska").forEach(System.out::println);
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println("Liczba drużyn biorących udział w rozgrywkach: ");
+        long count = countDistinctTeams(getMatchResultsStream());
+        System.out.println("Liczba drużyn biorących udział w rozgrywkach: " + count);
+    }
+
+    private static void printAllResultSorted(Stream<MatchResult> result) {
+        result.sorted(Comparator.comparing(MatchResult::getGoalDifference))
+                .forEach(System.out::println);
+    }
+
+    private static List<MatchResult> getResultWithTeam(Stream<MatchResult> result, String team) {
+        return result.filter(matchResult -> matchResult.hasParticipatedInTeamMatches(team))
+                .collect(Collectors.toList());
+    }
+
+    private static long countDistinctTeams(Stream<MatchResult> result) {
+        return result.map(MatchResult::getTeamNames)
+                .flatMap(Arrays::stream)
+                .distinct()
+                .count();
     }
 
     private static Stream<MatchResult> getMatchResultsStream() {

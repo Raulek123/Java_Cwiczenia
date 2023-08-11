@@ -3,7 +3,9 @@ package Stream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +23,11 @@ public class MatchResult {
         return hostGoals - guestGoals;
     }
 
-    public boolean getTeam(String team){
+    public boolean hasParticipatedInTeamMatches(String team){
         return (host.equalsIgnoreCase(team) || guest.equalsIgnoreCase(team));
+    }
+
+    public String[] getTeamNames() {
+        return new String[] {guest, host};
     }
 }
