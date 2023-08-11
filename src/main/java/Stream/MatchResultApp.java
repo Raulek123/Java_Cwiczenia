@@ -1,12 +1,20 @@
 package Stream;
 
+import java.util.Comparator;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class MatchResultApp {
     public static void main(String[] args) {
-        getMatchResultsStream();
-
-
+        System.out.println("Wszystkie mecze:");
+        getMatchResultsStream().sorted((m1, m2) -> Integer.compare(m2.getGoalDifference(), m1.getGoalDifference()))
+                .forEach(System.out::println);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("Wszystkie spotkania Polski:");
+        getMatchResultsStream().filter(matchResult -> matchResult.getTeam("Polska"))
+                .forEach(System.out::println);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("Liczba drużyn biorących udział w rozgrywkach: ");
     }
 
     private static Stream<MatchResult> getMatchResultsStream() {
