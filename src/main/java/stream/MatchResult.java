@@ -1,11 +1,7 @@
-package Stream;
+package stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
