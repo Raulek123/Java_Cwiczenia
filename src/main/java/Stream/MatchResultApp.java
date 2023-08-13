@@ -9,13 +9,22 @@ import java.util.stream.Stream;
 public class MatchResultApp {
     public static void main(String[] args) {
         System.out.println("Wszystkie mecze:");
-        printAllResultSorted(getMatchResultsStream());
+        printAllResultSorted(createStream());
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println("Wszystkie spotkania Polski:");
-        getResultWithTeam(getMatchResultsStream(), "Polska").forEach(System.out::println);
+        getResultWithTeam(createStream(), "Polska").forEach(System.out::println);
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        long count = countDistinctTeams(getMatchResultsStream());
+        long count = countDistinctTeams(createStream());
         System.out.println("Liczba drużyn biorących udział w rozgrywkach: " + count);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Integer goal = sumAllGoal(createStream());
+        System.out.println("Łączna liczba goli: " + goal);
+    }
+
+    private static Integer sumAllGoal(Stream<MatchResult> result) {
+        return result.map(MatchResult::allGoals)
+                .flatMap(Arrays::stream)
+                .reduce(0, Integer::sum);
     }
 
     private static void printAllResultSorted(Stream<MatchResult> result) {
@@ -35,7 +44,7 @@ public class MatchResultApp {
                 .count();
     }
 
-    private static Stream<MatchResult> getMatchResultsStream() {
+    private static Stream<MatchResult> createStream() {
         return Stream.of(
                 new MatchResult("Polska", "Irlandia", 2, 0),
                 new MatchResult("Brazylia", "Francja", 0, 3),

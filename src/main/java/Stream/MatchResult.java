@@ -30,4 +30,8 @@ public class MatchResult {
     public String[] getTeamNames() {
         return new String[] {guest, host};
     }
+
+    public Integer[] allGoals() {
+        return new Integer[] {guestGoals, hostGoals};
+    }
 }
