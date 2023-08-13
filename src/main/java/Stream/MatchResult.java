@@ -31,7 +31,7 @@ public class MatchResult {
         return new String[] {guest, host};
     }
 
-    public Integer[] allGoals() {
-        return new Integer[] {guestGoals, hostGoals};
+    public int allGoals() {
+        return guestGoals + hostGoals;
     }
 }

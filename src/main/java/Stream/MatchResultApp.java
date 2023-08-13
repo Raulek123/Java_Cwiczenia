@@ -21,12 +21,6 @@ public class MatchResultApp {
         System.out.println("Łączna liczba goli: " + goal);
     }
 
-    private static Integer sumAllGoal(Stream<MatchResult> result) {
-        return result.map(MatchResult::allGoals)
-                .flatMap(Arrays::stream)
-                .reduce(0, Integer::sum);
-    }
-
     private static void printAllResultSorted(Stream<MatchResult> result) {
         result.sorted(Comparator.comparing(MatchResult::getGoalDifference))
                 .forEach(System.out::println);
@@ -42,6 +36,11 @@ public class MatchResultApp {
                 .flatMap(Arrays::stream)
                 .distinct()
                 .count();
+    }
+
+    private static int sumAllGoal(Stream<MatchResult> result) {
+        return result.mapToInt(MatchResult::allGoals)
+                .sum();
     }
 
     private static Stream<MatchResult> createStream() {
