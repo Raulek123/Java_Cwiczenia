@@ -1,6 +1,7 @@
 package przetwarzanieKolekcji;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 class MusicCollection {
     public static void main(String[] args) {
@@ -18,6 +19,9 @@ class MusicCollection {
         long metallicaTrack = countTracksByArtistName(songs, "metallica");
         System.out.println("Łączny czas piosenek popowych na playliście (w sekundach): " + allTimeMusic);
         System.out.println("Liczba piosenek Metalliki na playliście: " + metallicaTrack);
+        System.out.println("Piosenki bez popu: ");
+        List<Song> filterAndDistinctMusicByGenre = filterAndDistinctMusicByGenre(songs, Song.Genre.POP);
+        filterAndDistinctMusicByGenre.forEach(System.out::println);
     }
 
     private static int calculateTotalTimeByGenre(List<Song> songList, Song.Genre genre) {
@@ -33,5 +37,10 @@ class MusicCollection {
                 .count();
     }
 
-    private static List<Song> filterAndDistinctMusicByGenre
+    private static List<Song> filterAndDistinctMusicByGenre(List<Song> songList, Song.Genre genre) {
+        return songList.stream()
+                .filter(song -> song.getGenre() != genre)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }
