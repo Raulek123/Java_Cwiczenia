@@ -1,8 +1,6 @@
 package przetwarzanieKolekcji;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.ToIntFunction;
 
 class MusicCollection {
     public static void main(String[] args) {
@@ -16,23 +14,24 @@ class MusicCollection {
                 new Song("The Unforgiven", 348, "Metallica", Song.Genre.METAL),
                 new Song("Girl on Fire", 404, "Alicia Keys", Song.Genre.POP)
         );
-        int allTimeMusic = getAllTimeMusic(songs, Song.Genre.POP);
-        long metallicaTrack = getNumberOfTracks(songs, "metallica");
+        int allTimeMusic = calculateTotalTimeByGenre(songs, Song.Genre.POP);
+        long metallicaTrack = countTracksByArtistName(songs, "metallica");
         System.out.println("Łączny czas piosenek popowych na playliście (w sekundach): " + allTimeMusic);
         System.out.println("Liczba piosenek Metalliki na playliście: " + metallicaTrack);
     }
 
-    private static int getAllTimeMusic(List<Song> songList, Song.Genre genre) {
+    private static int calculateTotalTimeByGenre(List<Song> songList, Song.Genre genre) {
         return songList.stream()
                 .filter(song -> song.getGenre().equals(genre))
                 .mapToInt(Song::getLength)
                 .sum();
     }
 
-    private static long getNumberOfTracks(List<Song> songList, String name) {
+    private static long countTracksByArtistName(List<Song> songList, String name) {
         return songList.stream()
                 .filter(song -> song.getArtist().toLowerCase().contains(name))
                 .count();
     }
 
+    private static List<Song> filterAndDistinctMusicByGenre
 }
